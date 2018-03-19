@@ -38,16 +38,16 @@ The model is based on the [Show and Tell Image Caption Generator Model](https://
 
 ## 1. Build the Model
 
-Clone the `MAX-im2txt` repository locally. In a terminal, run the following command:
+Clone this repository locally. In a terminal, run the following command:
 
 ```
-$ git clone https://github.com/IBM/MAX-im2txt
+$ git clone https://github.com/IBM/MAX-Image-Caption-Generator.git
 ```
 
 Change directory into the repository base folder:
 
 ```
-$ cd MAX-im2txt
+$ cd MAX-Image-Caption-Generator
 ```
 
 To build the docker image locally, run: 
