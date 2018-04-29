@@ -75,7 +75,7 @@ Use the `model/predict` endpoint to load a test file and get captions for the im
 You can also test it on the command line, for example:
 
 ```
-$ curl -F "image=@assets/surfing.jpg" -XPOST http://127.0.0.1:5000/model/predict
+$ curl -F "image=@assets/surfing.jpg" -X POST http://127.0.0.1:5000/model/predict
 ```
 
 ```json
