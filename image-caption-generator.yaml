@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: image-caption-generator
+  namespace: default
+  labels:
+    app: image-caption-generator
+spec:
+  restartPolicy: Always
+  containers:
+  - env:
+    name: image-caption-generator
+    image: codait/max-image-caption-generator
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: image-caption-generator
+    component: image-caption-generator
+  name: image-caption-generator
+spec:
+  ports:
+  - name: http
+    port: 5000
+    targetPort: 5000
+  selector:
+    app: image-caption-generator
+  sessionAffinity: None
+  type: NodePort
