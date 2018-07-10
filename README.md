@@ -107,4 +107,4 @@ To run the Flask API app in debug mode, edit `config.py` to set `DEBUG = True` u
 
 ## Links
 
-* [Image Caption Generator Web App](https://developer.ibm.com/code/?p=39765&post_type=pnext_journey&preview=1&_ppp=4560b6b06f): A reference application utilizing this model created by the IBM CODAIT team.
+* [Image Caption Generator Web App](http://developer.ibm.com/code/patterns/create-web-app-interact-machine-learning-generated-image-captions): A reference application created by the IBM CODAIT team that uses the Image Caption Generator
