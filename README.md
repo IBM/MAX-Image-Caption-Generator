@@ -104,3 +104,7 @@ $ curl -F "image=@assets/surfing.jpg" -X POST http://127.0.0.1:5000/model/predic
 ## 4. Development
 
 To run the Flask API app in debug mode, edit `config.py` to set `DEBUG = True` under the application settings. You will then need to rebuild the docker image (see [step 1](#1-build-the-model)).
+
+## Links
+
+* [Create a web app to interact with machine learning generated image captions](https://github.com/IBM/MAX-Image-Caption-Generator-Web-App): A reference application utilizing this model created by the IBM CODAIT team.
