@@ -1,3 +1,4 @@
+from flask import abort
 from flask_restplus import Namespace, Resource, fields
 from werkzeug.datastructures import FileStorage
 
@@ -50,9 +51,13 @@ class Predict(Resource):
         result = {'status': 'error'}
 
         args = image_parser.parse_args()
+
+        if not args['image'].mimetype.endswith(('jpg', 'jpeg', 'png')):
+            abort(400, 'Invalid file type/extension')
+
         image_data = args['image'].read()
         preds = self.model_wrapper.predict(image_data)
-        
+
         label_preds = [{'index': p[0], 'caption': p[1], 'probability': p[2]} for p in [x for x in preds]]
         result['predictions'] = label_preds
         result['status'] = 'ok'
