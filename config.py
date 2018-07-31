@@ -5,7 +5,7 @@ DEBUG = False
 
 # Flask-restplus settings
 RESTPLUS_MASK_SWAGGER = False
-SWAGGER_UI_DOC_EXPANSION = 'list'
+SWAGGER_UI_DOC_EXPANSION = 'none'
 
 # API metadata
 API_TITLE = 'Model Asset Exchange Server'
