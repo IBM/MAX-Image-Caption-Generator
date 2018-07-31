@@ -72,6 +72,8 @@ The API server automatically generates an interactive Swagger documentation page
 
 Use the `model/predict` endpoint to load a test file and get captions for the image from the API.
 
+![pic](/docs/swagger-screenshot.png "Swagger Screenshot")
+
 You can also test it on the command line, for example:
 
 ```
