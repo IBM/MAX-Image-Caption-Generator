@@ -19,7 +19,7 @@ def test_response():
     response = json.loads(response)
 
     assert response['status'] == 'ok'
-    assert response['predictions'][0]['caption'] == 'a man riding a wave on top of a surfboard .'
+    assert response['predictions'][0]['caption'] == 'FORCE TEST TO FAIL'
 
 
 if __name__ == '__main__':
