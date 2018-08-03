@@ -107,7 +107,7 @@ $ curl -F "image=@assets/surfing.jpg" -X POST http://127.0.0.1:5000/model/predic
 
 To run the Flask API app in debug mode, edit `config.py` to set `DEBUG = True` under the application settings. You will then need to rebuild the docker image (see [step 1](#1-build-the-model)).
 
-## 5. Cleanup
+## 5. Clean Up
 
 To stop the Docker container, type `CTRL` + `C` in your terminal.
 
