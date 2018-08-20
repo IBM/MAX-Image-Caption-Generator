@@ -3,12 +3,12 @@ import requests
 
 
 def test_response():
-    model_endpoint = 'http://localhost:8088/model/predict'
+    model_endpoint = 'http://localhost:5000/model/predict'
     file_path = 'assets/surfing.jpg'
     caption_text = 'a man riding a wave on top of a surfboard .'
 
     with open(file_path, 'rb') as file:
-        file_form = {'file': (file_path, file, 'image/jpeg')}
+        file_form = {'image': (file_path, file, 'image/jpeg')}
         r = requests.post(url=model_endpoint, files=file_form)
 
     assert r.status_code == 200
