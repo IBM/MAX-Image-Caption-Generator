@@ -6,6 +6,7 @@ services:
 install:
   - docker build -t max-image-caption-generator .
   - docker run -it -d -p 5000:5000 max-image-caption-generator
+  - sleep 30
 before_script:
   - pip install pytest requests
 script:
