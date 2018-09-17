@@ -6,10 +6,10 @@ ARG model_file=im2txt_ckpt.tar.gz
 WORKDIR /workspace
 
 RUN wget -nv ${model_bucket}/${model_file} --output-document=/workspace/assets/${model_file}
-RUN tar -x -C assets/ -f assets/${model_file} -v
+RUN tar -x -C assets/ -f assets/${model_file} -v && rm assets/${model_file}
 
-RUN pip install tensorflow && \
-    pip install Pillow
+COPY requirements.txt /workspace
+RUN pip install -r requirements.txt
 
 COPY . /workspace
 
