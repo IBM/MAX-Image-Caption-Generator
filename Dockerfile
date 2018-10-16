@@ -10,6 +10,7 @@ COPY requirements.txt /workspace
 RUN pip install -r requirements.txt
 
 COPY . /workspace
+RUN md5sum -c md5sums.txt # check file integrity
 
 EXPOSE 5000
 
