@@ -145,3 +145,4 @@ To stop the Docker container, type `CTRL` + `C` in your terminal.
 ## Links
 
 * [Image Caption Generator Web App](https://developer.ibm.com/patterns/create-a-web-app-to-interact-with-machine-learning-generated-image-captions): A reference application created by the IBM CODAIT team that uses the Image Caption Generator
+* [Image Caption Generator node for Node-RED](https://flows.nodered.org/node/node-red-contrib-model-asset-exchange): Node module to use Image Caption Generator on [Node-RED](https://nodered.org/) flow editor
