@@ -27,6 +27,7 @@ def test_metadata():
     assert metadata['name'] == 'im2txt TensorFlow Model'
     assert metadata['description'] == 'im2txt TensorFlow model trained on MSCOCO'
     assert metadata['license'] == 'APACHE V2'
+    assert 1 == 0
 
 
 def test_predict():
