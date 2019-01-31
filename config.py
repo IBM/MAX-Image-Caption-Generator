@@ -8,8 +8,8 @@ RESTPLUS_MASK_SWAGGER = False
 SWAGGER_UI_DOC_EXPANSION = 'none'
 
 # API metadata
-API_TITLE = 'Model Asset Exchange Server'
-API_DESC = 'An API for serving models'
+API_TITLE = 'MAX Image Caption Generator'
+API_DESC = 'Generates captions for images using deep learning'
 API_VERSION = '0.1'
 
 # default model
