@@ -9,10 +9,11 @@ install:
   - sleep 30
 before_script:
   - pip install pytest requests
-script:
-  - pytest tests/test.py
 jobs:
   include:
+    - stage: test
+      script:
+        - pytest tests/test.py
     - stage: trigger downstream
       jdk: oraclejdk8
       script: |
