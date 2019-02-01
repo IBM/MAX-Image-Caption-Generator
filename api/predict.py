@@ -5,6 +5,7 @@ from flask import abort
 from flask_restplus import fields
 from werkzeug.datastructures import FileStorage
 
+
 # Set up parser for image input data
 image_parser = MAX_API.parser()
 image_parser.add_argument('image', type=FileStorage, location='files', required=True, help="An image file")

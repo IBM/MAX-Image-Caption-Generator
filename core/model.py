@@ -11,12 +11,9 @@ from core import inference_wrapper
 from core.inference_utils import vocabulary
 from core.inference_utils import caption_generator
 
-from config import DEFAULT_MODEL_PATH
+from config import DEFAULT_MODEL_PATH, VOCAB_FILE
 
 logger = logging.getLogger()
-
-CHECKPOINT_PATH = './assets/checkpoint/model2.ckpt-2000000'
-VOCAB_FILE = './assets/word_counts.txt'
 
 
 class ModelWrapper(MAXModelWrapper):
@@ -27,7 +24,7 @@ class ModelWrapper(MAXModelWrapper):
         with g.as_default():
             model = inference_wrapper.InferenceWrapper()
             restore_fn = model.build_graph_from_config(configuration.ModelConfig(),
-                                                       CHECKPOINT_PATH)
+                                                       path)
         g.finalize()
         self.model = model
         sess = tf.Session(graph=g)
