@@ -1,6 +1,6 @@
 # Application settings
 
-# Flask settings 
+# Flask settings
 DEBUG = False
 
 # Flask-restplus settings
@@ -8,13 +8,14 @@ RESTPLUS_MASK_SWAGGER = False
 SWAGGER_UI_DOC_EXPANSION = 'none'
 
 # API metadata
-API_TITLE = 'Model Asset Exchange Server'
-API_DESC = 'An API for serving models'
+API_TITLE = 'MAX Image Caption Generator'
+API_DESC = 'Generate captions that describe the contents of images.'
 API_VERSION = '0.1'
 
 # default model
 MODEL_NAME = 'im2txt'
-DEFAULT_MODEL_PATH = 'assets/{}'.format(MODEL_NAME)
+DEFAULT_MODEL_PATH = 'assets/checkpoint/model2.ckpt-2000000'
+VOCAB_FILE = './assets/word_counts.txt'
 # for image models, may not be required
 MODEL_INPUT_IMG_SIZE = (299, 299)
 MODEL_LICENSE = 'APACHE V2'

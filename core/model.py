@@ -1,3 +1,6 @@
+
+from maxfw.model import MAXModelWrapper
+
 import math
 import logging
 
@@ -8,23 +11,20 @@ from core import inference_wrapper
 from core.inference_utils import vocabulary
 from core.inference_utils import caption_generator
 
-from config import DEFAULT_MODEL_PATH
+from config import DEFAULT_MODEL_PATH, VOCAB_FILE
 
 logger = logging.getLogger()
 
-CHECKPOINT_PATH = './assets/checkpoint/model2.ckpt-2000000'
-VOCAB_FILE = './assets/word_counts.txt'
 
+class ModelWrapper(MAXModelWrapper):
 
-class ModelWrapper(object):
-    """Model wrapper for TensorFlow models in SavedModel format"""
     def __init__(self, path=DEFAULT_MODEL_PATH):
         # TODO Replace this part with SavedModel
         g = tf.Graph()
         with g.as_default():
             model = inference_wrapper.InferenceWrapper()
             restore_fn = model.build_graph_from_config(configuration.ModelConfig(),
-                                                       CHECKPOINT_PATH)
+                                                       path)
         g.finalize()
         self.model = model
         sess = tf.Session(graph=g)
@@ -32,7 +32,7 @@ class ModelWrapper(object):
         restore_fn(sess)
         self.sess = sess
 
-    def predict(self, image_data):
+    def _predict(self, image_data):
         # Create the vocabulary.
         vocab = vocabulary.Vocabulary(VOCAB_FILE)
 
