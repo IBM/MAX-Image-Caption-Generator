@@ -18,12 +18,13 @@ DEFAULT_MODEL_PATH = 'assets/checkpoint/model2.ckpt-2000000'
 VOCAB_FILE = './assets/word_counts.txt'
 # for image models, may not be required
 MODEL_INPUT_IMG_SIZE = (299, 299)
-MODEL_LICENSE = 'APACHE V2'
+MODEL_LICENSE = 'Apache 2.0'
 
 MODEL_META_DATA = {
-    'id': '{}-tensorflow'.format(MODEL_NAME.lower()),
-    'name': '{} TensorFlow Model'.format(MODEL_NAME),
+    'id': API_TITLE.lower().replace(' ', '-'),
+    'name': API_TITLE,
     'description': '{} TensorFlow model trained on MSCOCO'.format(MODEL_NAME),
-    'type': 'image_captioning',
-    'license': '{}'.format(MODEL_LICENSE)
+    'type': 'Image-to-Text Translation',
+    'license': MODEL_LICENSE,
+    'source': 'https://developer.ibm.com/exchanges/models/all/max-image-caption-generator/'
 }
