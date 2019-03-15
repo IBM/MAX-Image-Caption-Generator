@@ -10,7 +10,7 @@ SWAGGER_UI_DOC_EXPANSION = 'none'
 # API metadata
 API_TITLE = 'MAX Image Caption Generator'
 API_DESC = 'Generate captions that describe the contents of images.'
-API_VERSION = '0.1'
+API_VERSION = '1.1.0'
 
 # default model
 MODEL_NAME = 'im2txt'
