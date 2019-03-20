@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/IBM/MAX-Image-Caption-Generator.svg?branch=master)](https://travis-ci.org/IBM/MAX-Image-Caption-Generator)
+[![Build Status](https://travis-ci.org/IBM/MAX-Image-Caption-Generator.svg?branch=master)](https://travis-ci.org/IBM/MAX-Image-Caption-Generator) [![Website Status](https://img.shields.io/website/http/max-image-caption-generator.max.us-south.containers.appdomain.cloud/swagger.json.svg?label=api+demo)](http://max-image-caption-generator.max.us-south.containers.appdomain.cloud/)
 
 # IBM Developer Model Asset Exchange: Image Caption Generator
 
