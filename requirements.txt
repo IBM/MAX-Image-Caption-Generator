@@ -1,2 +1,2 @@
-tensorflow
-Pillow
+tensorflow==1.13.1
+Pillow==6.0.0
