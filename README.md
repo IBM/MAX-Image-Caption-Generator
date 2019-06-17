@@ -12,7 +12,7 @@ The model is based on the [Show and Tell Image Caption Generator Model](https://
 | Vision | Image Caption Generator | General | TensorFlow | [COCO](http://cocodataset.org/#home) | Images | 
 
 ## References
-* _O. Vinyals, A. Toshev, S. Bengio, D. Erhan._, ["Show and Tell: Lessons learned from the 2015 MSCOCO Image Captioning Challenge"](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7505636), IEEE transactions on Pattern Analysis and Machine Intelligence, 2017.
+* _O. Vinyals, A. Toshev, S. Bengio, D. Erhan._, ["Show and Tell: Lessons learned from the 2015 MSCOCO Image Captioning Challenge"](https://ieeexplore.ieee.org/document/7505636), IEEE transactions on Pattern Analysis and Machine Intelligence, 2017.
 * [im2txt TensorFlow Model GitHub Page](https://github.com/tensorflow/models/tree/master/research/im2txt)
 * [COCO Dataset Project Page](http://cocodataset.org/#home)
 
