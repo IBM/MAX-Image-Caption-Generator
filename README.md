@@ -12,7 +12,7 @@ The model is based on the [Show and Tell Image Caption Generator Model](https://
 | Vision | Image Caption Generator | General | TensorFlow | [COCO](http://cocodataset.org/#home) | Images | 
 
 ## References
-* _O. Vinyals, A. Toshev, S. Bengio, D. Erhan._, ["Show and Tell: Lessons learned from the 2015 MSCOCO Image Captioning Challenge"](https://arxiv.org/abs/1609.06647), IEEE transactions on Pattern Analysis and Machine Intelligence, 2016.
+* _O. Vinyals, A. Toshev, S. Bengio, D. Erhan._, ["Show and Tell: Lessons learned from the 2015 MSCOCO Image Captioning Challenge"](https://doi.org/10.1109/TPAMI.2016.2587640), IEEE transactions on Pattern Analysis and Machine Intelligence, 2017.
 * [im2txt TensorFlow Model GitHub Page](https://github.com/tensorflow/models/tree/master/research/im2txt)
 * [COCO Dataset Project Page](http://cocodataset.org/#home)
 
@@ -23,7 +23,7 @@ The model is based on the [Show and Tell Image Caption Generator Model](https://
 | This repository | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [LICENSE](LICENSE) |
 | Model Weights | [MIT](https://opensource.org/licenses/MIT) | [Pretrained Show and Tell Model](https://github.com/KranthiGV/Pretrained-Show-and-Tell-model) |
 | Model Code (3rd party) | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [im2txt](https://github.com/tensorflow/models/tree/master/research/im2txt) |
-| Test assets | Various | [Asset README](assets/README.md) |
+| Test assets | Various | [Sample README](samples/README.md) |
 
 ## Pre-requisites:
 
@@ -108,7 +108,7 @@ Use the `model/predict` endpoint to load a test file and get captions for the im
 You can also test it on the command line, for example:
 
 ```
-$ curl -F "image=@assets/surfing.jpg" -X POST http://localhost:5000/model/predict
+$ curl -F "image=@samples/surfing.jpg" -X POST http://localhost:5000/model/predict
 ```
 
 ```json
