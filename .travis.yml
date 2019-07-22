@@ -21,10 +21,11 @@ services:
   - docker
 install:
   - docker build -t max-image-caption-generator .
-  - docker run -it -d -p 5000:5000 max-image-caption-generator
-  - sleep 30
+  - docker run -it --rm -d -p 5000:5000 max-image-caption-generator
+  - pip install -r requirements-test.txt
 before_script:
-  - pip install pytest requests
+  - flake8 . --max-line-length=127
+  - sleep 30
 jobs:
   include:
     - stage: test

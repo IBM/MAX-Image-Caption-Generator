@@ -59,7 +59,7 @@ def test_predict():
     model_endpoint = 'http://localhost:5000/model/predict'
     formats = ['jpg', 'png']
     file_path = 'tests/surfing.{}'
-    
+
     for f in formats:
         p = file_path.format(f)
         with open(p, 'rb') as file:
