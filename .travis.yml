@@ -24,7 +24,6 @@ install:
   - docker run -it --rm -d -p 5000:5000 max-image-caption-generator
   - pip install -r requirements-test.txt
 before_script:
-  - pip install
   - flake8 . --max-line-length=127
   - sleep 30
 jobs:
