@@ -19,9 +19,15 @@ python:
   - 3.6
 services:
   - docker
+before_install:
+  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then
+      VERSION=latest;
+    else
+      VERSION=$TRAVIS_BRANCH;
+    fi
 install:
-  - docker build -t max-image-caption-generator .
-  - docker run -it --rm -d -p 5000:5000 max-image-caption-generator
+  - docker build -f "$DOCKERFILE" -t max-image-caption-generator:"$IMAGE"-"$ARCH"-"$VERSION" .
+  - docker run -it --rm -d -p 5000:5000 max-image-caption-generator:"$IMAGE"-"$ARCH"-"$VERSION"
   - pip install -r requirements-test.txt
 before_script:
   - flake8 . --max-line-length=127
@@ -40,3 +46,27 @@ jobs:
           curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
           sh trigger-travis.sh IBM MAX-Image-Caption-Generator-Web-App $TRAVIS_ACCESS_TOKEN
         fi
+
+matrix:
+  include:
+  - os: linux
+    env: DOCKERFILE=Dockerfile IMAGE=test ARCH=x86_64
+  - os: linux
+    env: DOCKERFILE=Dockerfile.pai IMAGE=powerai ARCH=x86_64
+  - os: linux-ppc64le
+    env: DOCKERFILE=Dockerfile.pai IMAGE=powerai ARCH=ppc64le
+  - if: type = push AND (branch = master OR tag IS present)
+    stage: "Docker Manifest"
+    addons:
+      apt:
+        packages:
+          - docker-ce
+    install:
+    before_script:
+    script:
+      - export DOCKER_CLI_EXPERIMENTAL=enabled
+      - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin;
+      - docker pull codait/max-image-caption-generator:powerai-ppc64le-"$VERSION";
+      - docker pull codait/max-image-caption-generator:powerai-x86_64-"$VERSION";
+      - docker manifest create codait/max-image-caption-generator:powerai-"$VERSION" codait/max-base:powerai-ppc64le-"$VERSION" codait/max-base:powerai-x86_64-"$VERSION";
+      - docker manifest push codait/max-image-caption-generator:powerai-"$VERSION";
