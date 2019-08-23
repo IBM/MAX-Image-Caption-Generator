@@ -24,8 +24,8 @@ before_install:
       VERSION=$TRAVIS_BRANCH;
     fi
 install:
-  - docker build -f "$DOCKERFILE" -t max-image-caption-generator:"$IMAGE"-"$ARCH"-"$VERSION" .
-  - docker run -it --rm -d -p 5000:5000 max-image-caption-generator:"$IMAGE"-"$ARCH"-"$VERSION"
+  - docker build -f "$DOCKERFILE" -t codait/max-image-caption-generator:"$IMAGE"-"$ARCH"-"$VERSION" .
+  - docker run -it --rm -d -p 5000:5000 codait/max-image-caption-generator:"$IMAGE"-"$ARCH"-"$VERSION"
   - pip install -r requirements-test.txt
 before_script:
   - flake8 . --max-line-length=127
@@ -35,7 +35,7 @@ script:
 after_success:
   - if [[ "$IMAGE" != "test" && "$TRAVIS_PULL_REQUEST" == "false" ]] && [[ "$TRAVIS_BRANCH" == "master" || "$TRAVIS_BRANCH" == "$TRAVIS_TAG" ]]; then
       echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin;
-      docker push codait/max-base:"$IMAGE"-"$ARCH"-"$VERSION";
+      docker push codait/max-image-caption-generator:"$IMAGE"-"$ARCH"-"$VERSION";
     fi
 
 matrix:
@@ -58,7 +58,9 @@ matrix:
       - export DOCKER_CLI_EXPERIMENTAL=enabled
       - docker pull codait/max-image-caption-generator:powerai-ppc64le-"$VERSION";
       - docker pull codait/max-image-caption-generator:powerai-x86_64-"$VERSION";
-      - docker manifest create codait/max-image-caption-generator:powerai-"$VERSION" codait/max-base:powerai-ppc64le-"$VERSION" codait/max-base:powerai-x86_64-"$VERSION";
+      - docker manifest create codait/max-image-caption-generator:powerai-"$VERSION" codait/max-image-caption-generator:powerai-ppc64le-"$VERSION" codait/max-image-caption-generator:powerai-x86_64-"$VERSION";
+      - docker manifest push codait/max-image-caption-generator:powerai-"$VERSION"
+# Re-enable downstream test once webapp is debugged
   - if: false    
     stage: trigger downstream
     jdk: oraclejdk8
