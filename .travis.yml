@@ -61,13 +61,12 @@ matrix:
       - docker manifest create codait/max-image-caption-generator:powerai-"$VERSION" codait/max-image-caption-generator:powerai-ppc64le-"$VERSION" codait/max-image-caption-generator:powerai-x86_64-"$VERSION";
       - docker manifest push codait/max-image-caption-generator:powerai-"$VERSION"
 # Re-enable downstream test once webapp is debugged
-  - if: false    
-    stage: trigger downstream
-    jdk: oraclejdk8
-    script: |
-      echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
-      if [[ ($TRAVIS_BRANCH == master) &&
-            ($TRAVIS_PULL_REQUEST == false) ]] ; then
-        curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
-        sh trigger-travis.sh IBM MAX-Image-Caption-Generator-Web-App $TRAVIS_ACCESS_TOKEN
-      fi
+#  - stage: trigger downstream
+#    jdk: oraclejdk8
+#    script: |
+#      echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
+#      if [[ ($TRAVIS_BRANCH == master) &&
+#            ($TRAVIS_PULL_REQUEST == false) ]] ; then
+#        curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
+#        sh trigger-travis.sh IBM MAX-Image-Caption-Generator-Web-App $TRAVIS_ACCESS_TOKEN
+#      fi
