@@ -1,5 +1,6 @@
-# Once we have an official pai-based MAX build, this should be a multiarch image
-FROM codait/max-base:powerai-latest
+#FROM codait/max-base:powerai-v1.2.1
+
+FROM max-base-powerai:test
 
 RUN ["/bin/bash", "-c", "cd /opt/anaconda3/bin && source activate base && conda install -y tensorflow" ] 
 
