@@ -1,6 +1,4 @@
-#FROM codait/max-base:powerai-v1.2.1
-
-FROM max-base-powerai:test
+FROM codait/max-base:powerai-v1.2.1
 
 RUN ["/bin/bash", "-c", "cd /opt/anaconda3/bin && source activate base && conda install -y tensorflow" ] 
 
