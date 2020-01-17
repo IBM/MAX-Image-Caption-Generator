@@ -154,3 +154,7 @@ To stop the Docker container, type `CTRL` + `C` in your terminal.
 ## Links
 
 * [Image Caption Generator Web App](https://developer.ibm.com/patterns/create-a-web-app-to-interact-with-machine-learning-generated-image-captions): A reference application created by the IBM CODAIT team that uses the Image Caption Generator
+
+## Resources and Contributions
+   
+If you are interested in contributing to the Model Asset Exchange project or have any queries, please follow the instructions [here](https://github.com/CODAIT/max-central-repo).
