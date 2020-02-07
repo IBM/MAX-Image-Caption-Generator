@@ -1,4 +1,0 @@
-98a25b6cf08bb6664a8b2768a17f36c0  assets/checkpoint/checkpoint
-813f7024af98c247327d2991c1e3786c  assets/checkpoint/model2.ckpt-2000000.data-00000-of-00001
-d41ebb3b17c65ea0c58d4e3c56538b7a  assets/checkpoint/model2.ckpt-2000000.index
-dfd7d4906c11ec1ebbc6796b8880e99c  assets/checkpoint/model2.ckpt-2000000.meta
