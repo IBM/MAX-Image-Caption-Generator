@@ -1,4 +1,3 @@
-#
 # Copyright 2018-2019 IBM Corp. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,31 +11,62 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 language: python
 python:
   - 3.6
 services:
   - docker
+before_install:
+  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then
+      VERSION=latest;
+    else
+      VERSION=$TRAVIS_BRANCH;
+    fi
 install:
-  - docker build -t max-image-caption-generator .
-  - docker run -it --rm -d -p 5000:5000 max-image-caption-generator
+  - docker build -f "$DOCKERFILE" -t codait/max-image-caption-generator:"$IMAGE"-"$ARCH"-"$VERSION" .
+  - docker run -it --rm -d -p 5000:5000 codait/max-image-caption-generator:"$IMAGE"-"$ARCH"-"$VERSION"
   - pip install -r requirements-test.txt
 before_script:
   - flake8 . --max-line-length=127
   - sleep 30
-jobs:
+script:
+  - pytest tests/test.py
+after_success:
+  - if [[ "$IMAGE" != "test" && "$TRAVIS_PULL_REQUEST" == "false" ]] && [[ "$TRAVIS_BRANCH" == "master" || "$TRAVIS_BRANCH" == "$TRAVIS_TAG" ]]; then
+      echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin;
+      docker push codait/max-image-caption-generator:"$IMAGE"-"$ARCH"-"$VERSION";
+    fi
+
+matrix:
   include:
-    - stage: test
-      script:
-        - pytest tests/test.py
-    - stage: trigger downstream
-      jdk: oraclejdk8
-      script: |
-        echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
-        if [[ ($TRAVIS_BRANCH == master) &&
-              ($TRAVIS_PULL_REQUEST == false) ]] ; then
-          curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
-          sh trigger-travis.sh IBM MAX-Image-Caption-Generator-Web-App $TRAVIS_ACCESS_TOKEN
-        fi
+  - os: linux
+    env: DOCKERFILE=Dockerfile IMAGE=test ARCH=x86_64
+  - os: linux
+    env: DOCKERFILE=Dockerfile.pai IMAGE=powerai ARCH=x86_64
+  - os: linux-ppc64le
+    env: DOCKERFILE=Dockerfile.pai IMAGE=powerai ARCH=ppc64le
+  - if: type = push AND (branch = master OR tag IS present)
+    stage: "Docker Manifest"
+    addons:
+      apt:
+        packages:
+          - docker-ce
+    install:
+    before_script:
+    script:
+      - export DOCKER_CLI_EXPERIMENTAL=enabled
+      - docker pull codait/max-image-caption-generator:powerai-ppc64le-"$VERSION";
+      - docker pull codait/max-image-caption-generator:powerai-x86_64-"$VERSION";
+      - docker manifest create codait/max-image-caption-generator:powerai-"$VERSION" codait/max-image-caption-generator:powerai-ppc64le-"$VERSION" codait/max-image-caption-generator:powerai-x86_64-"$VERSION";
+      - docker manifest push codait/max-image-caption-generator:powerai-"$VERSION"
+# Re-enable downstream test once webapp is debugged
+#  - stage: trigger downstream
+#    jdk: oraclejdk8
+#    script: |
+#      echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
+#      if [[ ($TRAVIS_BRANCH == master) &&
+#            ($TRAVIS_PULL_REQUEST == false) ]] ; then
+#        curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
+#        sh trigger-travis.sh IBM MAX-Image-Caption-Generator-Web-App $TRAVIS_ACCESS_TOKEN
+#      fi
