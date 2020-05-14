@@ -15,28 +15,37 @@
 #
 
 language: python
+
 python:
   - 3.6
+
 services:
   - docker
+
 install:
   - docker build -t max-image-caption-generator .
   - docker run -it --rm -d -p 5000:5000 max-image-caption-generator
   - pip install -r requirements-test.txt
+
 before_script:
   - flake8 . --max-line-length=127
   - sleep 30
-jobs:
-  include:
-    - stage: test
-      script:
-        - pytest tests/test.py
-    - stage: trigger downstream
-      jdk: oraclejdk8
-      script: |
-        echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
-        if [[ ($TRAVIS_BRANCH == master) &&
-              ($TRAVIS_PULL_REQUEST == false) ]] ; then
-          curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
-          sh trigger-travis.sh IBM MAX-Image-Caption-Generator-Web-App $TRAVIS_ACCESS_TOKEN
-        fi
+
+script:
+  - pytest tests/test.py
+
+### Temporarily disable downstream tests ###
+#jobs:
+#  include:
+#    - stage: test
+#      script:
+#        - pytest tests/test.py
+#    - stage: trigger downstream
+#      jdk: oraclejdk8
+#      script: |
+#        echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
+#        if [[ ($TRAVIS_BRANCH == master) &&
+#              ($TRAVIS_PULL_REQUEST == false) ]] ; then
+#          curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
+#          sh trigger-travis.sh IBM MAX-Image-Caption-Generator-Web-App $TRAVIS_ACCESS_TOKEN
+#        fi
