@@ -106,7 +106,9 @@ def process_image(encoded_image,
     image_summary("original_image", image)
 
     # Resize image.
-    assert (resize_height > 0) == (resize_width > 0)  # nosec
+    if (resize_height > 0) != (resize_width > 0):
+        ValueError("Invalid resize parameters height: '{0}' width: '{1}'".format(resize_height, resize_width))
+
     if resize_height:
         image = tf.image.resize_images(image,
                                        size=[resize_height, resize_width],
