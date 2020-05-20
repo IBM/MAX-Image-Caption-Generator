@@ -106,7 +106,7 @@ def process_image(encoded_image,
     image_summary("original_image", image)
 
     # Resize image.
-    assert (resize_height > 0) == (resize_width > 0)
+    assert (resize_height > 0) == (resize_width > 0)  # nosec
     if resize_height:
         image = tf.image.resize_images(image,
                                        size=[resize_height, resize_width],

@@ -46,7 +46,7 @@ class Caption(object):
 
     def __cmp__(self, other):
         """Compares Captions by score."""
-        assert isinstance(other, Caption)
+        assert isinstance(other, Caption)  # nosec
         if self.score == other.score:
             return 0
         elif self.score < other.score:
@@ -56,12 +56,12 @@ class Caption(object):
 
     # For Python 3 compatibility (__cmp__ is deprecated).
     def __lt__(self, other):
-        assert isinstance(other, Caption)
+        assert isinstance(other, Caption)  # nosec
         return self.score < other.score
 
     # Also for Python 3 compatibility.
     def __eq__(self, other):
-        assert isinstance(other, Caption)
+        assert isinstance(other, Caption)  # nosec
         return self.score == other.score
 
 
@@ -73,12 +73,12 @@ class TopN(object):
         self._data = []
 
     def size(self):
-        assert self._data is not None
+        assert self._data is not None  # nosec
         return len(self._data)
 
     def push(self, x):
         """Pushes a new element."""
-        assert self._data is not None
+        assert self._data is not None  # nosec
         if len(self._data) < self._n:
             heapq.heappush(self._data, x)
         else:
@@ -95,7 +95,7 @@ class TopN(object):
         Returns:
           A list of data; the top n elements provided to the set.
         """
-        assert self._data is not None
+        assert self._data is not None  # nosec
         data = self._data
         self._data = None
         if sort:

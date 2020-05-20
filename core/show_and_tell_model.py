@@ -45,7 +45,7 @@ class ShowAndTellModel(object):
           mode: "train", "eval" or "inference".
           train_inception: Whether the inception submodel variables are trainable.
         """
-        assert mode in ["train", "eval", "inference"]
+        assert mode in ["train", "eval", "inference"]  # nosec
         self.config = config
         self.mode = mode
         self.train_inception = train_inception
@@ -153,7 +153,7 @@ class ShowAndTellModel(object):
 
             # Image processing and random distortion. Split across multiple threads
             # with each thread applying a slightly different distortion.
-            assert self.config.num_preprocess_threads % 2 == 0
+            assert self.config.num_preprocess_threads % 2 == 0  # nosec
             images_and_captions = []
             for thread_id in range(self.config.num_preprocess_threads):
                 serialized_sequence_example = input_queue.dequeue()
