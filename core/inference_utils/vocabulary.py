@@ -46,8 +46,10 @@ class Vocabulary(object):
         with tf.gfile.GFile(vocab_file, mode="r") as f:
             reverse_vocab = list(f.readlines())
         reverse_vocab = [line.split()[0] for line in reverse_vocab]
-        assert start_word in reverse_vocab
-        assert end_word in reverse_vocab
+        if start_word not in reverse_vocab:
+            raise ValueError("Start word '%s' is not in 'reserved_vocab" % start_word)
+        if end_word not in reverse_vocab:
+            raise ValueError("End word '%s' is not in 'reserved_vocab" % end_word)
         if unk_word not in reverse_vocab:
             reverse_vocab.append(unk_word)
         vocab = dict([(x, y) for (y, x) in enumerate(reverse_vocab)])

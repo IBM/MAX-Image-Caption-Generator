@@ -29,6 +29,7 @@ install:
 
 before_script:
   - flake8 . --max-line-length=127
+  - bandit -r .
   - sleep 30
 
 script:
