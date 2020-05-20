@@ -47,7 +47,7 @@ class Caption(object):
     def __cmp__(self, other):
         """Compares Captions by score."""
         if not isinstance(other, Caption):
-            ValueError("'%s' is an instance of Caption" % other)
+            raise ValueError("'%s' is an instance of Caption" % other)
         if self.score == other.score:
             return 0
         elif self.score < other.score:
@@ -58,13 +58,13 @@ class Caption(object):
     # For Python 3 compatibility (__cmp__ is deprecated).
     def __lt__(self, other):
         if not isinstance(other, Caption):
-            ValueError("'%s' is an instance of Caption" % other)
+            raise ValueError("'%s' is an instance of Caption" % other)
         return self.score < other.score
 
     # Also for Python 3 compatibility.
     def __eq__(self, other):
         if not isinstance(other, Caption):
-            ValueError("'%s' is an instance of Caption" % other)
+            raise ValueError("'%s' is an instance of Caption" % other)
         return self.score == other.score
 
 
@@ -77,13 +77,13 @@ class TopN(object):
 
     def size(self):
         if self._data is None:
-            ValueError("'self._data' is None")
+            raise ValueError("'self._data' is None")
         return len(self._data)
 
     def push(self, x):
         """Pushes a new element."""
         if self._data is None:
-            ValueError("'self._data' is none")
+            raise ValueError("'self._data' is none")
         if len(self._data) < self._n:
             heapq.heappush(self._data, x)
         else:
@@ -101,7 +101,7 @@ class TopN(object):
           A list of data; the top n elements provided to the set.
         """
         if self._data is None:
-            ValueError("'self._data' is None")
+            raise ValueError("'self._data' is None")
         data = self._data
         self._data = None
         if sort:
