@@ -43,6 +43,6 @@ spec:
     spec:
       containers:
       - name: max-image-caption-generator
-        image: codait/max-image-caption-generator:latest
+        image: quay.io/codait/max-image-caption-generator:latest
         ports:
         - containerPort: 5000
