@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-FROM quay.io/codait/max-base:v1.4.0
+FROM quay.io/codait/max-base:v1.5.0
 
 ARG model_bucket=https://max-cdn.cdn.appdomain.cloud/max-image-caption-generator/1.0.0
 ARG model_file=assets.tar.gz

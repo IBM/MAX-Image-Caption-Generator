@@ -21,9 +21,8 @@ from __future__ import print_function
 
 import tensorflow as tf
 
-from tensorflow.contrib.slim.python.slim.nets.inception_v3 import inception_v3_base
-
-slim = tf.contrib.slim
+import tf_slim as slim
+from tf_slim.nets.inception_v3 import inception_v3_base
 
 
 def inception_v3(images,
@@ -83,19 +82,19 @@ def inception_v3(images,
     else:
         weights_regularizer = None
 
-    with tf.variable_scope(scope, "InceptionV3", [images]) as scope:
+    with tf.compat.v1.variable_scope(scope, "InceptionV3", [images]) as scope:
         with slim.arg_scope(
                 [slim.conv2d, slim.fully_connected],
                 weights_regularizer=weights_regularizer,
                 trainable=trainable):
             with slim.arg_scope(
                     [slim.conv2d],
-                    weights_initializer=tf.truncated_normal_initializer(stddev=stddev),
+                    weights_initializer=tf.compat.v1.truncated_normal_initializer(stddev=stddev),
                     activation_fn=tf.nn.relu,
                     normalizer_fn=slim.batch_norm,
                     normalizer_params=batch_norm_params):
                 net, end_points = inception_v3_base(images, scope=scope)
-                with tf.variable_scope("logits"):
+                with tf.compat.v1.variable_scope("logits"):
                     shape = net.get_shape()
                     net = slim.avg_pool2d(net, shape[1:3], padding="VALID", scope="pool")
                     net = slim.dropout(
@@ -108,6 +107,6 @@ def inception_v3(images,
     # Add summaries.
     if add_summaries:
         for v in end_points.values():
-            tf.contrib.layers.summaries.summarize_activation(v)
+            slim.summarize_activation(v)
 
     return net

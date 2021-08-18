@@ -18,7 +18,7 @@ from maxfw.core import MAX_API, PredictAPI
 from core.model import ModelWrapper
 
 from flask import abort
-from flask_restplus import fields
+from flask_restx import fields
 from werkzeug.datastructures import FileStorage
 
 

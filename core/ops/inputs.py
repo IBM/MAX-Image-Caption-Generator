@@ -85,7 +85,7 @@ def prefetch_input_data(reader,
     """
     data_files = []
     for pattern in file_pattern.split(","):
-        data_files.extend(tf.gfile.Glob(pattern))
+        data_files.extend(tf.compat.v1.gfile.Glob(pattern))
     if not data_files:
         tf.logging.fatal("Found no input files matching %s", file_pattern)
     else:

@@ -24,6 +24,7 @@ from __future__ import division
 from __future__ import print_function
 
 import tensorflow as tf
+import tf_slim as slim
 
 from core.ops import image_embedding
 from core.ops import image_processing
@@ -52,7 +53,7 @@ class ShowAndTellModel(object):
         self.train_inception = train_inception
 
         # Reader for the input data.
-        self.reader = tf.TFRecordReader()
+        self.reader = tf.compat.v1.TFRecordReader()
 
         # To match the "Show and Tell" paper we initialize all variables with a
         # random uniform initializer.
@@ -129,10 +130,10 @@ class ShowAndTellModel(object):
         """
         if self.mode == "inference":
             # In inference mode, images and inputs are fed via placeholders.
-            image_feed = tf.placeholder(dtype=tf.string, shape=[], name="image_feed")
-            input_feed = tf.placeholder(dtype=tf.int64,
-                                        shape=[None],  # batch_size
-                                        name="input_feed")
+            image_feed = tf.compat.v1.placeholder(dtype=tf.string, shape=[], name="image_feed")
+            input_feed = tf.compat.v1.placeholder(dtype=tf.int64,
+                                                  shape=[None],  # batch_size
+                                                  name="input_feed")
 
             # Process image and insert batch dimensions.
             images = tf.expand_dims(self.process_image(image_feed), 0)
@@ -192,12 +193,12 @@ class ShowAndTellModel(object):
             self.images,
             trainable=self.train_inception,
             is_training=self.is_training())
-        self.inception_variables = tf.get_collection(
-            tf.GraphKeys.GLOBAL_VARIABLES, scope="InceptionV3")
+        self.inception_variables = tf.compat.v1.get_collection(
+            tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope="InceptionV3")
 
         # Map inception output into embedding space.
-        with tf.variable_scope("image_embedding") as scope:
-            image_embeddings = tf.contrib.layers.fully_connected(
+        with tf.compat.v1.variable_scope("image_embedding") as scope:
+            image_embeddings = slim.layers.fully_connected(
                 inputs=inception_output,
                 num_outputs=self.config.embedding_size,
                 activation_fn=None,
@@ -219,8 +220,8 @@ class ShowAndTellModel(object):
         Outputs:
           self.seq_embeddings
         """
-        with tf.variable_scope("seq_embedding"), tf.device("/cpu:0"):
-            embedding_map = tf.get_variable(
+        with tf.compat.v1.variable_scope("seq_embedding"), tf.device("/cpu:0"):
+            embedding_map = tf.compat.v1.get_variable(
                 name="map",
                 shape=[self.config.vocab_size, self.config.embedding_size],
                 initializer=self.initializer)
@@ -245,7 +246,7 @@ class ShowAndTellModel(object):
         # This LSTM cell has biases and outputs tanh(new_c) * sigmoid(o), but the
         # modified LSTM in the "Show and Tell" paper has no biases and outputs
         # new_c * sigmoid(o).
-        lstm_cell = tf.contrib.rnn.BasicLSTMCell(
+        lstm_cell = tf.compat.v1.nn.rnn_cell.BasicLSTMCell(
             num_units=self.config.num_lstm_units, state_is_tuple=True)
         if self.mode == "train":
             lstm_cell = tf.contrib.rnn.DropoutWrapper(
@@ -253,7 +254,7 @@ class ShowAndTellModel(object):
                 input_keep_prob=self.config.lstm_dropout_keep_prob,
                 output_keep_prob=self.config.lstm_dropout_keep_prob)
 
-        with tf.variable_scope("lstm", initializer=self.initializer) as lstm_scope:
+        with tf.compat.v1.variable_scope("lstm", initializer=self.initializer) as lstm_scope:
             # Feed the image embeddings to set the initial LSTM state.
             zero_state = lstm_cell.zero_state(
                 batch_size=self.image_embeddings.get_shape()[0], dtype=tf.float32)
@@ -268,9 +269,9 @@ class ShowAndTellModel(object):
                 tf.concat(axis=1, values=initial_state, name="initial_state")
 
                 # Placeholder for feeding a batch of concatenated states.
-                state_feed = tf.placeholder(dtype=tf.float32,
-                                            shape=[None, sum(lstm_cell.state_size)],
-                                            name="state_feed")
+                state_feed = tf.compat.v1.placeholder(dtype=tf.float32,
+                                                      shape=[None, sum(lstm_cell.state_size)],
+                                                      name="state_feed")
                 state_tuple = tf.split(value=state_feed, num_or_size_splits=2, axis=1)
 
                 # Run a single LSTM step.
@@ -293,8 +294,8 @@ class ShowAndTellModel(object):
         # Stack batches vertically.
         lstm_outputs = tf.reshape(lstm_outputs, [-1, lstm_cell.output_size])
 
-        with tf.variable_scope("logits") as logits_scope:
-            logits = tf.contrib.layers.fully_connected(
+        with tf.compat.v1.variable_scope("logits") as logits_scope:
+            logits = slim.layers.fully_connected(
                 inputs=lstm_outputs,
                 num_outputs=self.config.vocab_size,
                 activation_fn=None,
@@ -341,11 +342,11 @@ class ShowAndTellModel(object):
 
     def setup_global_step(self):
         """Sets up the global step Tensor."""
-        global_step = tf.Variable(
+        global_step = tf.compat.v1.Variable(
             initial_value=0,
             name="global_step",
             trainable=False,
-            collections=[tf.GraphKeys.GLOBAL_STEP, tf.GraphKeys.GLOBAL_VARIABLES])
+            collections=[tf.compat.v1.GraphKeys.GLOBAL_STEP, tf.compat.v1.GraphKeys.GLOBAL_VARIABLES])
 
         self.global_step = global_step
 
