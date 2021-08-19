@@ -30,6 +30,8 @@ from config import DEFAULT_MODEL_PATH, VOCAB_FILE
 
 logger = logging.getLogger()
 
+tf.compat.v1.disable_eager_execution()
+
 
 class ModelWrapper(MAXModelWrapper):
 
@@ -42,7 +44,7 @@ class ModelWrapper(MAXModelWrapper):
                                                        path)
         g.finalize()
         self.model = model
-        sess = tf.Session(graph=g)
+        sess = tf.compat.v1.Session(graph=g)
         # Load the model from checkpoint.
         restore_fn(sess)
         self.sess = sess

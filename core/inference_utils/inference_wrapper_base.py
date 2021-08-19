@@ -68,7 +68,7 @@ class InferenceWrapperBase(object):
         Returns:
           model: The model object.
         """
-        tf.logging.fatal("Please implement build_model in subclass")
+        tf.compat.v1.logging.fatal("Please implement build_model in subclass")
 
     def _create_restore_fn(self, checkpoint_path, saver):
         """Creates a function that restores a model from checkpoint.
@@ -86,16 +86,16 @@ class InferenceWrapperBase(object):
           ValueError: If checkpoint_path does not refer to a checkpoint file or a
             directory containing a checkpoint file.
         """
-        if tf.gfile.IsDirectory(checkpoint_path):
+        if tf.compat.v1.gfile.IsDirectory(checkpoint_path):
             checkpoint_path = tf.train.latest_checkpoint(checkpoint_path)
             if not checkpoint_path:
                 raise ValueError("No checkpoint file found in: %s" % checkpoint_path)
 
         def _restore_fn(sess):
-            tf.logging.info("Loading model from checkpoint: %s", checkpoint_path)
+            tf.compat.v1.logging.info("Loading model from checkpoint: %s", checkpoint_path)
             saver.restore(sess, checkpoint_path)
-            tf.logging.info("Successfully loaded checkpoint: %s",
-                            os.path.basename(checkpoint_path))
+            tf.compat.v1.logging.info("Successfully loaded checkpoint: %s",
+                                      os.path.basename(checkpoint_path))
 
         return _restore_fn
 
@@ -111,9 +111,9 @@ class InferenceWrapperBase(object):
           restore_fn: A function such that restore_fn(sess) loads model variables
             from the checkpoint file.
         """
-        tf.logging.info("Building model.")
+        tf.compat.v1.logging.info("Building model.")
         self.build_model(model_config)
-        saver = tf.train.Saver()
+        saver = tf.compat.v1.train.Saver()
 
         return self._create_restore_fn(checkpoint_path, saver)
 
@@ -132,18 +132,18 @@ class InferenceWrapperBase(object):
             from the checkpoint file.
         """
         # Load the Graph.
-        tf.logging.info("Loading GraphDef from file: %s", graph_def_file)
+        tf.compat.v1.logging.info("Loading GraphDef from file: %s", graph_def_file)
         graph_def = tf.GraphDef()
-        with tf.gfile.FastGFile(graph_def_file, "rb") as f:
+        with tf.compat.v1.gfile.FastGFile(graph_def_file, "rb") as f:
             graph_def.ParseFromString(f.read())
         tf.import_graph_def(graph_def, name="")
 
         # Load the Saver.
-        tf.logging.info("Loading SaverDef from file: %s", saver_def_file)
-        saver_def = tf.train.SaverDef()
-        with tf.gfile.FastGFile(saver_def_file, "rb") as f:
+        tf.compat.v1.logging.info("Loading SaverDef from file: %s", saver_def_file)
+        saver_def = tf.compat.v1.train.SaverDef()
+        with tf.compat.v1.gfile.FastGFile(saver_def_file, "rb") as f:
             saver_def.ParseFromString(f.read())
-        saver = tf.train.Saver(saver_def=saver_def)
+        saver = tf.compat.v1.train.Saver(saver_def=saver_def)
 
         return self._create_restore_fn(checkpoint_path, saver)
 
@@ -159,7 +159,7 @@ class InferenceWrapperBase(object):
         Returns:
           state: A numpy array of shape [1, state_size].
         """
-        tf.logging.fatal("Please implement feed_image in subclass")
+        tf.compat.v1.logging.fatal("Please implement feed_image in subclass")
 
     def inference_step(self, sess, input_feed, state_feed):
         """Runs one step of inference.
@@ -176,6 +176,6 @@ class InferenceWrapperBase(object):
             current inference step (e.g. serialized numpy array containing
             activations from a particular model layer.).
         """
-        tf.logging.fatal("Please implement inference_step in subclass")
+        tf.compat.v1.logging.fatal("Please implement inference_step in subclass")
 
 # pylint: enable=unused-argument

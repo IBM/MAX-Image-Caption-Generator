@@ -35,12 +35,12 @@ def distort_image(image, thread_id):
         [0, 1].
     """
     # Randomly flip horizontally.
-    with tf.name_scope("flip_horizontal", values=[image]):
+    with tf.name_scope("flip_horizontal"):
         image = tf.image.random_flip_left_right(image)
 
     # Randomly distort the colors based on thread id.
     color_ordering = thread_id % 2
-    with tf.name_scope("distort_color", values=[image]):
+    with tf.name_scope("distort_color"):
         if color_ordering == 0:
             image = tf.image.random_brightness(image, max_delta=32. / 255.)
             image = tf.image.random_saturation(image, lower=0.5, upper=1.5)
@@ -95,7 +95,7 @@ def process_image(encoded_image,
             tf.summary.image(name, tf.expand_dims(image, 0))
 
     # Decode image into a float32 Tensor of shape [?, ?, 3] with values in [0, 1).
-    with tf.name_scope("decode", values=[encoded_image]):
+    with tf.name_scope("decode"):
         if image_format == "jpeg":
             image = tf.image.decode_jpeg(encoded_image, channels=3)
         elif image_format == "png":
@@ -110,16 +110,16 @@ def process_image(encoded_image,
         raise ValueError("Invalid resize parameters height: '{0}' width: '{1}'".format(resize_height, resize_width))
 
     if resize_height:
-        image = tf.image.resize_images(image,
-                                       size=[resize_height, resize_width],
-                                       method=tf.image.ResizeMethod.BILINEAR)
+        image = tf.image.resize(image,
+                                size=[resize_height, resize_width],
+                                method=tf.image.ResizeMethod.BILINEAR)
 
     # Crop to final dimensions.
     if is_training:
         image = tf.random_crop(image, [height, width, 3])
     else:
         # Central crop, assuming resize_height > height, resize_width > width.
-        image = tf.image.resize_image_with_crop_or_pad(image, height, width)
+        image = tf.image.resize_with_crop_or_pad(image, height, width)
 
     image_summary("resized_image", image)
 
